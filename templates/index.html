@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predicción de Clorofila</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Predicción de Clorofila</h1>
+    <form method="POST">
+        <label for="gari">GARI:</label>
+        <input type="text" id="gari" name="gari" required>
+        <br>
+        <label for="mnli">MNLI:</label>
+        <input type="text" id="mnli" name="mnli" required>
+        <br>
+        <label for="gndvi">GNDVI:</label>
+        <input type="text" id="gndvi" name="gndvi" required>
+        <br>
+        <button type="submit">Predecir</button>
+    </form>
+
+    {% if clorofila_a and clorofila_b %}
+    <h2>Resultados:</h2>
+    <p>Valores ingresados: GARI={{ gari }}, MNLI={{ mnli }}, GNDVI={{ gndvi }}</p>
+    <p>Clorofila A predicha: {{ clorofila_a|round(4) }}</p>
+    <p>Clorofila B predicha: {{ clorofila_b|round(4) }}</p>
+    {% endif %}
+</body>
+</html>
