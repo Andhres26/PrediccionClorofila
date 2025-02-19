@@ -5,28 +5,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Predicción de Clorofila</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        input, select, button {
+            padding: 10px;
+            font-size: 1rem;
+        }
+        button {
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <h1>Predicción de Clorofila</h1>
-    <p>Holi vvs </p>
-    <form method="POST">
-        <label for="gari">GARI:</label>
-        <input type="text" id="gari" name="gari" required>
-        <br>
-        <label for="mnli">MNLI:</label>
-        <input type="text" id="mnli" name="mnli" required>
-        <br>
-        <label for="gndvi">GNDVI:</label>
-        <input type="text" id="gndvi" name="gndvi" required>
-        <br>
-        <button type="submit">Predecir</button>
-    </form>
-
-    {% if clorofila_a and clorofila_b %}
-    <h2>Resultados:</h2>
-    <p>Valores ingresados: GARI={{ gari }}, MNLI={{ mnli }}, GNDVI={{ gndvi }}</p>
-    <p>Clorofila A predicha: {{ clorofila_a|round(4) }}</p>
-    <p>Clorofila B predicha: {{ clorofila_b|round(4) }}</p>
-    {% endif %}
+    <div class="container">
+        <h1>Predicción de Clorofila</h1>
+        
+        {% if error %}
+            <p style="color: red;">{{ error }}</p>
+        {% endif %}
+        
+        <form method="POST">
+            <label for="cultivo">Seleccione el cultivo:</label>
+            <select id="cultivo" name="cultivo" required>
+                {% for cultivo in cultivos %}
+                    <option value="{{ cultivo }}" {% if cultivo == cultivo_seleccionado %}selected{% endif %}>{{ cultivo }}</option>
+                {% endfor %}
+            </select>
+            
+            <label for="gari">GARI:</label>
+            <input type="number" id="gari" name="gari" step="any" required>
+            
+            <label for="mnli">MNLI:</label>
+            <input type="number" id="mnli" name="mnli" step="any" required>
+            
+            <label for="gndvi">GNDVI:</label>
+            <input type="number" id="gndvi" name="gndvi" step="any" required>
+            
+            <button type="submit">Predecir</button>
+        </form>
+    
+        {% if clorofila_a is not none and clorofila_b is not none %}
+        <h2>Resultados:</h2>
+        <p>Valores ingresados: GARI={{ gari }}, MNLI={{ mnli }}, GNDVI={{ gndvi }}</p>
+        <p>Clorofila A predicha: {{ clorofila_a|round(4) }}</p>
+        <p>Clorofila B predicha: {{ clorofila_b|round(4) }}</p>
+        {% endif %}
+    </div>
 </body>
 </html>
