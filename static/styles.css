@@ -32,7 +32,7 @@ form {
 label {
     margin-bottom: 5px;
     font-weight: bold;
-    color: #555;
+    color: #000; /* Ahora en negro para mejor visibilidad */
 }
 
 input {

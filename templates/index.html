@@ -6,8 +6,9 @@
     <title>Predicción de Clorofila</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <style>
+        /* Estilos generales */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
@@ -16,40 +17,90 @@
             justify-content: center;
             height: 100vh;
             text-align: center;
+            background: url("{{ url_for('static', filename='fondo.png') }}") repeat;
+            background-size: 25%; /* Ajusta el tamaño de la imagen */
+            position: relative;
         }
+
+        /* Capa de opacidad */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.5); /* Fondo blanco con 50% de opacidad */
+            z-index: -1;
+        }
+
         .container {
+            background: rgba(255, 255, 255, 0.9); /* Fondo blanco semi-transparente */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
             width: 90%;
-            max-width: 600px;
+            max-width: 500px;
+            position: relative;
+            z-index: 1;
         }
+
         h1 {
+            color: black;
             margin-bottom: 20px;
         }
+
         form {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 15px;
         }
+
+        label {
+            font-weight: bold;
+        }
+
         input, select, button {
             padding: 10px;
             font-size: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
         }
+
         button {
             cursor: pointer;
-            background-color: #007BFF;
+            background-color: #388E3C;
             color: white;
             border: none;
+            transition: 0.3s;
         }
+
         button:hover {
-            background-color: #0056b3;
+            background-color: #1B5E20;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+
+        .resultados {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Predicción de Clorofila</h1>
-        
+        <h1>Predicción de Clorofila</h1>  
+        <p>                                                                             </p>
+        <p class="descripcion">¿Quieres conocer la cantidad de clorofila en tus plantas? Usamos índices de vegetación para estimarla de manera rápida y sencilla, ayudándote a mejorar el cuidado de tus cultivos.</p>
+        <p>                                                                             </p>
+
         {% if error %}
-            <p style="color: red;">{{ error }}</p>
+            <p class="error">{{ error }}</p>
         {% endif %}
         
         <form method="POST">
@@ -73,10 +124,12 @@
         </form>
     
         {% if clorofila_a is not none and clorofila_b is not none %}
-        <h2>Resultados:</h2>
-        <p>Valores ingresados: GARI={{ gari }}, MNLI={{ mnli }}, GNDVI={{ gndvi }}</p>
-        <p>Clorofila A predicha: {{ clorofila_a|round(4) }}</p>
-        <p>Clorofila B predicha: {{ clorofila_b|round(4) }}</p>
+        <div class="resultados">
+            <h2>Resultados:</h2>
+            <p><strong>Valores ingresados:</strong> GARI={{ gari }}, MNLI={{ mnli }}, GNDVI={{ gndvi }}</p>
+            <p><strong>Clorofila A predicha:</strong> {{ clorofila_a|round(4) }}</p>
+            <p><strong>Clorofila B predicha:</strong> {{ clorofila_b|round(4) }}</p>
+        </div>
         {% endif %}
     </div>
 </body>
