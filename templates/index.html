@@ -10,7 +10,10 @@
 <body>
     <div class="container">
         <h1>Predicción de Clorofila</h1>
-        <p class="descripcion">¿Quieres conocer la cantidad de clorofila en tus plantas? Usamos índices de vegetación para estimarla de manera rápida y sencilla, ayudándote a mejorar el cuidado de tus cultivos.</p>
+        <p class="descripcion">
+            ¿Quieres conocer la cantidad de clorofila en tus plantas? Usamos índices de vegetación 
+            para estimarla de manera rápida y sencilla, ayudándote a mejorar el cuidado de tus cultivos.
+        </p>
 
         {% if error %}
             <p class="error">{{ error }}</p>
@@ -20,32 +23,137 @@
             <label for="cultivo">Seleccione el cultivo:</label>
             <select id="cultivo" name="cultivo" required>
                 {% for cultivo in cultivos %}
-                    <option value="{{ cultivo }}" {% if cultivo == cultivo_seleccionado %}selected{% endif %}>{{ cultivo }}</option>
+                    <option value="{{ cultivo }}" {% if cultivo == cultivo_seleccionado %}selected{% endif %}>
+                        {{ cultivo }}
+                    </option>
                 {% endfor %}
             </select>
             
             <label for="gari">GARI:</label>
-            <input type="number" id="gari" name="gari" step="any" required>
+            <input type="number" id="gari" name="gari" step="any" value="{{ gari|default('') }}" required>
             
             <label for="mnli">MNLI:</label>
-            <input type="number" id="mnli" name="mnli" step="any" required>
+            <input type="number" id="mnli" name="mnli" step="any" value="{{ mnli|default('') }}" required>
             
             <label for="gndvi">GNDVI:</label>
-            <input type="number" id="gndvi" name="gndvi" step="any" required>
+            <input type="number" id="gndvi" name="gndvi" step="any" value="{{ gndvi|default('') }}" required>
             
             <button type="submit">Predecir</button>
+            <button type="reset" class="clear-button">Limpiar</button>
+
         </form>
-    
+        
+        
+
+
         {% if clorofila_a is not none and clorofila_b is not none %}
         <div class="resultados">
             <h2>Resultados:</h2>
-            <p><strong>Valores ingresados:</strong> GARI={{ gari }}, MNLI={{ mnli }}, GNDVI={{ gndvi }}</p>
-            <p><strong>Clorofila A predicha:</strong> {{ clorofila_a|round(4) }}</p>
-            <p><strong>Clorofila B predicha:</strong> {{ clorofila_b|round(4) }}</p>
+            <p>Para los valores ingresados: <strong>GARI={{ gari }}, MNLI={{ mnli }}, GNDVI={{ gndvi }}</strong>, de <strong>{{cultivo_seleccionado}}</strong> se tiene:</p>
+
+            <p>
+                <strong>Clorofila A:</strong> 
+                <span class="{% if categoria_a == 'Buena' %}bueno{% elif categoria_a == 'Regular' %}regular{% elif categoria_a == 'Mala' %}malo{% endif %}">
+
+                    {{ clorofila_a|round(4) }}
+                </span>
+            </p>
+            
+            <p>
+                <strong>Clorofila B:</strong> 
+                <span class="{% if categoria_b == 'Buena' %}bueno{% elif categoria_b == 'Regular' %}regular{% elif categoria_b == 'Mala' %}malo{% endif %}">
+                    {{ clorofila_b|round(4) }}
+                </span>
+            </p>            
+        
+            {% if grafico_clorofila %}
+                <h3>Estado de Clorofila</h3>
+                <img src="data:image/png;base64,{{ grafico_clorofila }}" alt="Niveles de Clorofila">
+            {% endif %}
+
+              
+            
+            
         </div>
         {% endif %}
     </div>
+    
+
 </body>
+
+<div class="manual-faq">
+    <div class="manual">
+        <h3>📖 Guía de Uso – Predicción de Clorofila</h3>
+
+        <div class="manual-step">
+            <h4>Paso 1: Obtén los índices de vegetación 🌱</h4>
+            <p>Para estimar la clorofila, primero necesitas calcular los siguientes índices de vegetación a partir de imágenes de tus cultivos:</p>
+            <ul>
+                <li><strong>GNDVI</strong> – Índice de Vegetación de Diferencia Normalizada en Verde</li>
+                <li><strong>MNLI</strong> – Índice de Línea de Normalización Modificada</li>
+                <li><strong>GARI</strong> – Índice de Reflectancia Ajustado para Verde</li>
+            </ul>
+            <p>Estos valores pueden obtenerse con software como MATLAB o programando en Python con OpenCV o NumPy.</p>
+        </div>
+
+        <div class="manual-step">
+            <h4>Paso 2: Ingresa los datos en la plataforma 🌾 </h4>
+            <p>Selecciona el tipo de cultivo en el menú desplegable y completa los valores de <strong>GNDVI</strong>, <strong>MNLI</strong> y <strong>GARI</strong> en los campos correspondientes.</p>
+        </div>
+
+        <div class="manual-step">
+            <h4>Paso 3: Realiza la predicción 🔍 </h4>
+            <p>Haz clic en el botón <strong>"Predecir"</strong> y el sistema estimará automáticamente la cantidad de clorofila A y clorofila B en tu cultivo.</p>
+        </div>
+
+        <div class="manual-step">
+            <h4>Paso 4: Interpreta los resultados 📊 </h4>
+            <p>Los valores estimados de clorofila te ayudarán a evaluar la salud de tus cultivos y a tomar decisiones más informadas para su manejo. El sistema clasifica los resultados en tres categorías: bueno, regular o deficiente, y cambia el color de los valores para una interpretación rápida: <strong>rojo</strong> para niveles deficientes, <strong>amarillo</strong> para niveles regulares y <strong>verde</strong> para niveles óptimos, permitiéndote identificar fácilmente el estado de tus plantas y aplicar las medidas necesarias para su mejora.</p>
+        </div>
+    </div>
+
+    <div class="faq">
+        <h3> Preguntas Frecuentes ❓</h3>
+
+        <details>
+            <summary>📌 ¿Qué es la clorofila y por qué es importante?</summary>
+            <p>La clorofila es un pigmento esencial en las plantas, responsable de la fotosíntesis. Su cantidad influye en la eficiencia del cultivo y puede indicar su estado de salud.</p>
+        </details>
+        
+        <details>
+            <summary>📌 ¿Qué son los índices de vegetación y cómo se obtienen?</summary>
+            <p>Los índices de vegetación son valores calculados a partir de imágenes para analizar la cantidad de clorofila en las plantas. Se obtienen procesando imágenes con software como MATLAB o mediante código en Python.</p>
+        </details>
+
+        <details>
+            <summary>📌 ¿Para qué cultivos funciona esta herramienta?</summary>
+            <p>Esta herramienta está diseñada para estimar la clorofila en ocho cultivos específicos: café, maíz, yuca, plátano, papa, aguacate, caña y tomate. Al seleccionar el cultivo correspondiente, el sistema ajusta el análisis para ofrecer una predicción más precisa y adaptada a sus características.</p>
+        </details>
+
+        <details>
+            <summary>📌 ¿Qué significan los valores de clorofila obtenidos?</summary>
+            <p>Los valores de clorofila A y B indican la cantidad de pigmento en la planta. Valores bajos pueden sugerir deficiencias nutricionales o estrés en el cultivo.</p>
+        </details>
+
+        <details>
+            <summary>📌 ¿Qué pasa si no tengo los valores de los índices de vegetación?</summary>
+            <p>Si no cuentas con estos valores, puedes obtenerlos procesando imágenes con herramientas como MATLAB o Python. Te recomendamos investigar sobre cómo calcular GNDVI, MNLI y GARI en imágenes satelitales o de drones.</p>
+        </details>
+
+        <details>
+            <summary>📌 ¿El sistema reemplaza un análisis de laboratorio?</summary>
+            <p>No, esta herramienta es un método de estimación basado en índices de vegetación. Para obtener mediciones exactas, se recomienda complementar con análisis de laboratorio.</p>
+        </details>
+
+        
+        <details>
+            <summary>📌 ¿Qué tan seguros son los resultados?</summary>
+            <p>Se cuenta con un valor superior al xx de acertacion</p>
+        </details>
+        
+    </div>
+</div>
+
 
 <footer>
     <div class="footer-content">

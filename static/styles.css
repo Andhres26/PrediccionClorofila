@@ -1,5 +1,4 @@
 /* Estilos generales */
-/* Estilos generales */
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
@@ -25,9 +24,8 @@ body {
     max-width: 500px;
     position: relative;
     z-index: 1;
-    margin-top: 20px; /* Añadir margen arriba para evitar que el título se esconda */
+    margin-top: 20px;
 }
-
 
 /* Capa de opacidad */
 body::before {
@@ -43,9 +41,49 @@ body::before {
 
 
 h1 {
-    color: black;
-    margin-bottom: 20px;
+    font-size: 4rem; /* Más grande */
+    font-weight: 900; /* Extra grueso */
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    text-align: center;
+    font-family: 'Arial Black', Impact, sans-serif; /* Fuentes gruesas */
+
+    background: url("https://img.freepik.com/fotos-premium/contraste-plantas-sanas-campo-cultivos-enfermos-otro-concepto-comparacion-agricola-evaluacion-salud-plantas-inspeccion-campo-monitoreo-enfermedades-cultivos_864588-63313.jpg") no-repeat center;
+    background-size: cover;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+
+    animation: moverFondo 5s infinite linear;
 }
+
+/* Contorno para mejorar la visibilidad */
+h1::before {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 4rem;
+    font-weight: 900;
+    font-family: 'Arial Black', Impact, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: rgba(0, 0, 0, 0.5); /* Contorno oscuro */
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 4px rgba(0, 0, 0, 0.5);
+    z-index: -1;
+}
+
+/* Animación del fondo dentro del texto */
+@keyframes moverFondo {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+
 
 form {
     display: flex;
@@ -76,11 +114,22 @@ button:hover {
     background-color: #1B5E20;
 }
 
+/* Botón para limpiar los campos */
+.clear-button {
+    background-color: #d32f2f; /* Rojo para indicar acción de limpieza */
+}
+
+.clear-button:hover {
+    background-color: #b71c1c; /* Rojo más oscuro en hover */
+}
+
+/* Mensajes de error */
 .error {
     color: red;
     font-weight: bold;
 }
 
+/* Estilos de los resultados */
 .resultados {
     margin-top: 20px;
     padding: 15px;
@@ -88,32 +137,45 @@ button:hover {
     border-radius: 5px;
 }
 
+/* Estilos de los resultados según la categoría */
+.bueno {
+    color: green;
+    font-weight: bold;
+}
+
+.regular {
+    color: #CCAA00; /* Amarillo oscuro */
+    font-weight: bold;
+}
+
+.malo {
+    color: red;
+    font-weight: bold;
+}
+
 /* Estilos del footer */
 footer {
-    margin-top: 40px;
-    padding: 20px;
-    background: #f9f9f9;
-    color: #333;
+    width: 90%;
+    max-width: 500px;
+    margin: 20px auto;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-top: 3px solid #4eae22;
     text-align: center;
-    font-size: 14px;
-    border-top: 3px solid #0D47A1;
 }
 
 .footer-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
-    max-width: 900px;
-    margin: 0 auto;
-    padding-bottom: 10px;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+    width: 100%;
 }
 
 .footer-text {
     text-align: left;
     flex: 1;
-    padding-left: 20px;
 }
 
 .footer-text p {
@@ -134,26 +196,101 @@ footer {
 .footer-logos {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    padding-right: 20px;
+    align-items: center;
+    gap: 10px;
 }
 
 .footer-logos img {
-    margin: 5px;
+    max-height: 80px;
     height: auto;
-    filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.2));
+    width: auto;
 }
 
 .footer-logos img:first-child {
-    max-width: 180px;
+    max-width: 200px;
 }
 
 .footer-logos img:last-child {
-    max-width: 130px;
+    max-width: 150px;
 }
 
 .footer-copy {
     margin-top: 10px;
     font-size: 12px;
     opacity: 0.8;
+}
+
+/* 🔹 Contenedor para Manual de Uso y Preguntas Frecuentes */
+.manual-faq {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    margin-top: 20px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.15);
+    text-align: left;
+   }
+
+/* 🔹 Estilos para los títulos */
+.manual h3, .faq h3 {
+    color: #1B5E20;
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+/* 🔹 Estilos de los pasos del manual */
+.manual-step {
+    background: #F5F5F5;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;   
+}
+
+.manual-step h4 {
+    color: #2E7D32;
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.manual p, .manual li {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #333;
+}
+
+.manual ul {
+    padding-left: 20px;
+}
+
+/* 🔹 Estilos de la sección de Preguntas Frecuentes */
+.faq {
+    margin-top: 20px;
+}
+
+.faq details {
+    background: #F9F9F9;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border-left: 4px solid #1976D2;
+}
+
+.faq summary {
+    cursor: pointer;
+    font-weight: bold;
+    color: #1976D2;
+    font-size: 1.1rem;
+    transition: 0.3s;
+}
+
+.faq summary:hover {
+    color: #0D47A1;
+}
+
+.faq p {
+    padding-left: 10px;
+    font-size: 1rem;
+    color: #444;
 }
